@@ -24,7 +24,7 @@ library(dplyr)
 library(tidyr)
 
 ## All_Age_Depth_Curves
-All_Age_Depth_Curves = readRDS(file = "./Output/All_Age_Depth_Curves_2021-11-23") # load the most recent age-depth curve file
+All_Age_Depth_Curves = readRDS(file = "./Output/All_Age_Depth_Curves_2021-11-23") # load the age-depth curve file
 
 ## pollen_all
 pollen_all = readRDS(file = "./Output/KMH_S1_pollen_all_2021-11-22")
@@ -41,7 +41,6 @@ makeStandardDF = function(All_Age_Depth_Curves, pollen_all, sitenum)
 }
 
 #make bigdf
-source("makeStandardDF.R")
 bigdf = NULL
 for(name in names(All_Age_Depth_Curves))
 {
