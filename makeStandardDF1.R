@@ -2035,20 +2035,19 @@ bigdf$Cirsium.Carduus <- Cirsium.Carduus_sum
 bigdf <- subset(bigdf, select = -c(Cirsium.Carduus.type))
 
 ### Renamings ###
-names(bigdf) <- sub("\\.type", "", names(bigdf))
-names(bigdf) <- sub("\\cf..", "", names(bigdf))
-
 bigdf <- rename(bigdf, Aconitum.lycoctonum = Aconitum.lycoctonum.subsp..septentrionale)
 bigdf <- rename(bigdf, Alnus.viridis = Alnus.viridis.subsp..fruticosa)
+bigdf <- rename(bigdf, Valeriana.excelsa = Valeriana.excelsa.subsp..sambucifolia.type)
+bigdf <- rename(bigdf, Anagallis.tenella = Anagallis.cf..A..tenella)
+bigdf <- rename(bigdf, Astragalus.glycyphyllos = Astragalus.cf..A..glycyphyllos)
+bigdf <- rename(bigdf, Cassiope = Ericaceae.cf..Cassiope)
+bigdf <- rename(bigdf, Lingulodinium.machaerophorum = Lingulodinium.cf..L..machaerophorum)
+bigdf <- rename(bigdf, Lotus.corniculatus = Lotus.cf..L..corniculatus)
+bigdf <- rename(bigdf, Operculodinium.centrocarpum = Operculodinium.cf..O..centrocarpum)
+bigdf <- rename(bigdf, Rubus.idaeus = Rubus.cf..R..idaeus)
 
-bigdf$Anagallis.tenella <- bigdf$Anagallis.A..tenella
-#bigdf$Astragalus.glycyphyllos <- bigdf$Astragalus..A..glycyphyllos
-#bigdf$Cassiope <- bigdf$Ericaceae..Cassiope
-#bigdf$Lingulodinium.machaerophorum = bigdf$Lingulodinium..L..machaerophorum
-#bigdf$Lotus.corniculatus = bigdf$Lotus..L..corniculatus
-#bigdf$Operculodinium.centrocarpum = bigdf$Operculodinium..O..centrocarpum
-#bigdf$Rubus.idaeus = bigdf$Rubus..R..idaeus
-#bigdf <- rename(bigdf, Valeriana.excelsa = Valeriana.excelsa.subsp..sambucifolia)
+names(bigdf) <- sub("\\.type", "", names(bigdf))
+names(bigdf) <- sub("\\cf..", "", names(bigdf))
 
 
 ### Save the file ###
