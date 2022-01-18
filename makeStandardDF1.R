@@ -1054,37 +1054,37 @@ for(i in 1:length(aa)){
 bigdf$Hypericum.perforatum <- Hypericum.perforatum_sum
 bigdf <- subset(bigdf, select = -c(Hypericum.perforatum.type))
 
-#Isoëtes.lacustris
+#Isoetes.lacustris
 aa <- apply(is.na(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris")]),1,all)
 f_sum <- rowSums(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris")],na.rm=TRUE)
 t_sum <- rowSums(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris")])
-Isoëtes.lacustris_sum = f_sum # create a new vector the same size as f_sum
+Isoetes.lacustris_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
   if(aa[i]){
-    Isoëtes.lacustris_sum[i] = t_sum[i]
+    Isoetes.lacustris_sum[i] = t_sum[i]
   }
   else{
-    Isoëtes.lacustris_sum[i] = f_sum[i]
+    Isoetes.lacustris_sum[i] = f_sum[i]
   }
 }
-bigdf$Isoëtes.lacustris <- Isoëtes.lacustris_sum
+bigdf$Isoetes.lacustris <- Isoetes.lacustris_sum
 bigdf <- subset(bigdf, select = -c(Isoëtes.cf..I..lacustris))
 
-#Isoëtes
-aa <- apply(is.na(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris", "Isoëtes.undiff.")]),1,all)
-f_sum <- rowSums(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris", "Isoëtes.undiff.")],na.rm=TRUE)
-t_sum <- rowSums(bigdf[,c("Isoëtes.lacustris", "Isoëtes.cf..I..lacustris", "Isoëtes.undiff.")])
-Isoëtes.lacustris_sum = f_sum # create a new vector the same size as f_sum
+#Isoetes
+aa <- apply(is.na(bigdf[,c("Isoëtes", "Isoëtes.undiff.")]),1,all)
+f_sum <- rowSums(bigdf[,c("Isoëtes", "Isoëtes.undiff.")],na.rm=TRUE)
+t_sum <- rowSums(bigdf[,c("Isoëtes", "Isoëtes.undiff.")])
+Isoetes_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
   if(aa[i]){
-    Isoëtes.lacustris_sum[i] = t_sum[i]
+    Isoetes_sum[i] = t_sum[i]
   }
   else{
-    Isoëtes.lacustris_sum[i] = f_sum[i]
+    Isoetes_sum[i] = f_sum[i]
   }
 }
-bigdf$Isoëtes.lacustris <- Isoëtes.lacustris_sum
-bigdf <- subset(bigdf, select = -c(Isoëtes.cf..I..lacustris, Isoëtes.undiff.))
+bigdf$Isoetes <- Isoetes_sum
+bigdf <- subset(bigdf, select = -c(Isoëtes.undiff.))
 
 #Jasione
 aa <- apply(is.na(bigdf[,c("Jasione", "Jasione.type")]),1,all)
