@@ -2053,5 +2053,5 @@ bigdf$Anagallis.tenella <- bigdf$Anagallis.A..tenella
 
 ### Save the file ###
 bigdf_1cleaned <- bigdf
-save(bigdf_1cleaned,file="bigdf_species.Rda")
+save(bigdf_1cleaned,file="bigdf_1cleaned.Rda")
 load("bigdf_1cleaned.Rda")
