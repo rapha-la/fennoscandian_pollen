@@ -115,9 +115,9 @@ bigdf$Artemisia <- new_sum
 bigdf <- subset(bigdf, select = -c(Artemisia.norvegica))
 
 #Astragalus
-aa <- apply(is.na(bigdf[,c("Astragalus.A..glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")]),1,all)
-f_sum <- rowSums(bigdf[,c("Astragalus.A..glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")],na.rm=TRUE)
-t_sum <- rowSums(bigdf[,c("Astragalus.A..glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")])
+aa <- apply(is.na(bigdf[,c("Astragalus.glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")]),1,all)
+f_sum <- rowSums(bigdf[,c("Astragalus.glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")],na.rm=TRUE)
+t_sum <- rowSums(bigdf[,c("Astragalus.glycyphyllos", "Astragalus.alpinus", "Astragalus.frigidus")])
 new_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
   if(aa[i]){
@@ -128,7 +128,7 @@ for(i in 1:length(aa)){
   }
 }
 bigdf$Astragalus <- new_sum
-bigdf <- subset(bigdf, select = -c(Astragalus.A..glycyphyllos, Astragalus.alpinus, Astragalus.frigidus))
+bigdf <- subset(bigdf, select = -c(Astragalus.glycyphyllos, Astragalus.alpinus, Astragalus.frigidus))
 
 #Athyrium
 aa <- apply(is.na(bigdf[,c("Athyrium.alpestre", "Athyrium.filix.femina")]),1,all)
@@ -803,10 +803,12 @@ for(i in 1:length(aa)){
 bigdf$Lonicera <- new_sum
 bigdf <- subset(bigdf, select = -c(Lonicera.periclymenum, Lonicera.xylosteum))
 
+bigdf <- rename(bigdf, Lingulodinium = Lingulodinium.machaerophorum)
+
 #Lotus
-aa <- apply(is.na(bigdf[,c("Lotus", "Lotus.pedunculatus")]),1,all)
-f_sum <- rowSums(bigdf[,c("Lotus", "Lotus.pedunculatus")],na.rm=TRUE)
-t_sum <- rowSums(bigdf[,c("Lotus", "Lotus.pedunculatus")])
+aa <- apply(is.na(bigdf[,c("Lotus", "Lotus.pedunculatus", "Lotus.corniculatus")]),1,all)
+f_sum <- rowSums(bigdf[,c("Lotus", "Lotus.pedunculatus", "Lotus.corniculatus")],na.rm=TRUE)
+t_sum <- rowSums(bigdf[,c("Lotus", "Lotus.pedunculatus", "Lotus.corniculatus")])
 new_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
   if(aa[i]){
@@ -817,7 +819,7 @@ for(i in 1:length(aa)){
   }
 }
 bigdf$Lotus <- new_sum
-bigdf <- subset(bigdf, select = -c(Lotus.pedunculatus))
+bigdf <- subset(bigdf, select = -c(Lotus.pedunculatus, Lotus.corniculatus))
 
 #Lycopodium
 aa <- apply(is.na(bigdf[,c("Lycopodium", "Lycopodium.annotinum", "Lycopodium.clavatum")]),1,all)
@@ -1038,7 +1040,7 @@ for(i in 1:length(aa)){
 bigdf$Oxyria <- new_sum
 bigdf <- subset(bigdf, select = -c(Oxyria.digyna))
 
-#bigdf <- rename(bigdf, Operculodinium = Operculodinium.O..centrocarpum)
+bigdf <- rename(bigdf, Operculodinium = Operculodinium.centrocarpum)
 bigdf <- rename(bigdf, Osmunda = Osmunda.regalis)
 
 #Papaver
@@ -1333,9 +1335,9 @@ bigdf$Rhynchospora <- new_sum
 bigdf <- subset(bigdf, select = -c(Rhynchospora.alba))
 
 #Rubus
-aa <- apply(is.na(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.R..idaeus", "Rubus.saxatilis")]),1,all)
-f_sum <- rowSums(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.R..idaeus", "Rubus.saxatilis")],na.rm=TRUE)
-t_sum <- rowSums(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.R..idaeus", "Rubus.saxatilis")])
+aa <- apply(is.na(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.idaeus", "Rubus.saxatilis")]),1,all)
+f_sum <- rowSums(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.idaeus", "Rubus.saxatilis")],na.rm=TRUE)
+t_sum <- rowSums(bigdf[,c("Rubus", "Rubus.chamaemorus", "Rubus.fruticosus", "Rubus.idaeus", "Rubus.saxatilis")])
 new_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
   if(aa[i]){
@@ -1346,7 +1348,7 @@ for(i in 1:length(aa)){
   }
 }
 bigdf$Rubus <- new_sum
-bigdf <- subset(bigdf, select = -c(Rubus.chamaemorus, Rubus.fruticosus, Rubus.R..idaeus, Rubus.saxatilis))
+bigdf <- subset(bigdf, select = -c(Rubus.chamaemorus, Rubus.fruticosus, Rubus.idaeus, Rubus.saxatilis))
 
 #Rumex
 aa <- apply(is.na(bigdf[,c("Rumex", "Rumex.acetosa", "Rumex.acetosa.R..acetosella", "Rumex.acetosella", "Rumex.longifolius")]),1,all)
@@ -1782,12 +1784,29 @@ for(i in 1:length(aa)){
 bigdf$Salix <- new_sum
 bigdf <- subset(bigdf, select = -c(Salix.herbacea))
 
+#Isoetes
+aa <- apply(is.na(bigdf[,c("Isoetes", "Isoetes.lacustris")]),1,all)
+f_sum <- rowSums(bigdf[,c("Isoetes", "Isoetes.lacustris")],na.rm=TRUE)
+t_sum <- rowSums(bigdf[,c("Isoetes", "Isoetes.lacustris")])
+new_sum = f_sum # create a new vector the same size as f_sum
+for(i in 1:length(aa)){
+  if(aa[i]){
+    new_sum[i] = t_sum[i]
+  }
+  else{
+    new_sum[i] = f_sum[i]
+  }
+}
+bigdf$Isoetes <- new_sum
+bigdf <- subset(bigdf, select = -c(Isoetes.lacustris))
+
 
 bigdf <- rename(bigdf, Schoenoplectus = Schoenoplectus.lacustris)
 bigdf <- rename(bigdf, Tetraëdron = Tetraëdron.minimum$s)
 bigdf <- rename(bigdf, Thelypteris = Thelypteris.palustris)
 bigdf <- rename(bigdf, Trientalis = Trientalis.europaea)
-
+bigdf <- rename(bigdf, Scleranthus = Scleranthus.annuus)
+bigdf <- rename(bigdf, Viola = Viola.palustris)
 
 
 ### Save the file ###
