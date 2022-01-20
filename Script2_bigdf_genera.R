@@ -1,6 +1,6 @@
-### makeStandardDF_for_genera ###
+### bigdf_genera ###
 
-#Run makeStandardDF.R script first!
+#Run Script1_bigdf_cleaned first!
 
 #Aconitum
 aa <- apply(is.na(bigdf[,c("Aconitum", "Aconitum.lycoctonum")]),1,all)
