@@ -1802,7 +1802,7 @@ bigdf <- subset(bigdf, select = -c(Isoetes.lacustris))
 
 
 bigdf <- rename(bigdf, Schoenoplectus = Schoenoplectus.lacustris)
-bigdf <- rename(bigdf, Tetraëdron = Tetraëdron.minimum$s)
+bigdf <- rename(bigdf, Tetraëdron = Tetraëdron.minimum)
 bigdf <- rename(bigdf, Thelypteris = Thelypteris.palustris)
 bigdf <- rename(bigdf, Trientalis = Trientalis.europaea)
 bigdf <- rename(bigdf, Scleranthus = Scleranthus.annuus)
