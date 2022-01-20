@@ -11,15 +11,7 @@ getwd()
 
 # – Setting up libraries ####
 #–––––––––––––––––––––––––––––––––––––––––––––––––
-library(neotoma) # To interact with Neotoma
-library(dplyr)
-library(ggplot2) # To plot figures
-library(Bchron) ## To convert uncalibrated radiocarbon years to radiocarbon years.
-library(vegan)
-library(permute)
-library(lattice)
-library(analogue)
-library("stringr")
+library(stringr)
 library(dplyr)
 library(tidyr)
 
@@ -891,8 +883,6 @@ for(i in 1:length(aa)){
 }
 bigdf$Dryopteris <- Dryopteris_sum
 bigdf <- subset(bigdf, select = -c(Dryopteris.type))
-
-bigdf$dry
 
 #Ephedra.distachya
 aa <- apply(is.na(bigdf[,c("Ephedra.distachya", "Ephedra.distachya.type")]),1,all)
