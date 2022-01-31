@@ -21,3 +21,5 @@ for(name in names(All_Age_Depth_Curves))
     groupdf = dplyr::bind_rows(groupdf, sitenumdf)
   }
 }
+
+groupdf <- unique(groupdf)
