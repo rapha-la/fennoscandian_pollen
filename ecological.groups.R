@@ -1,6 +1,6 @@
 ### ECOLOGICAL GROUPS ###
 
-eco.groups.neotoma = function(pollen_all, All_Age_Depth_Curves, sitenum)
+eco.groups.neotoma = function(sitenum)
 {
   taxon.name <- pollen_all[[sitenum]]$taxon.list$taxon.name
   ecological.group <- pollen_all[[sitenum]]$taxon.list$ecological.group
@@ -96,8 +96,8 @@ sitenumbers = c(12,
       4017,
       3928)
 
-for (i in 1:sitenumbers) {
-  eco.group.[i] <- eco.groups.neotoma("[i]")
-}
+#for (i in 1:sitenumbers) {
+#  eco.group[i] <- eco.groups.neotoma("[i]")
+#}
 
 
