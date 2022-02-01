@@ -15,6 +15,9 @@ ecp_divisive_for_site = function(dataset_ID){
   big_noids = subset(big_restricted_nonas,select=-c(meantimes,dataset_ID))
   big_scaled = scale(big_noids,scale = FALSE)
   ecp_divisive_for_site = e.divisive(big_scaled, k = NULL)
+  print(big$meantimes[ecp_divisive_for_site$estimates[2]])
+  print(big$meantimes[ecp_divisive_for_site$estimates[3]])
+  print(big$meantimes[ecp_divisive_for_site$estimates[4]])
 }
 
 
@@ -31,6 +34,7 @@ plot_ecp_site = function(SiteNR, genus1, genus2, genus3){ #the genera names have
     geom_line(aes(y = c3,colour="col3")) +
     geom_vline(aes(xintercept = big$meantimes[ecp$estimates[2]], colour = "changepoint")) +
     geom_vline(aes(xintercept = big$meantimes[ecp$estimates[3]], colour = "changepoint")) +
+    geom_vline(aes(xintercept = big$meantimes[ecp$estimates[4]], colour = "changepoint")) +
     ggtitle(SiteNR) +
     labs(x = "Year BP",y = "Count Nr",colour = "Legend")
 }
