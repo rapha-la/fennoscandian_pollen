@@ -5,14 +5,19 @@
 library(ecp)
 library(ggplot2)
 
-
-# ecp-function
-ecp_divisive_for_site = function(dataset_ID){
+ecp_preprocess_for_site = function(dataset_ID){
   big=bigdf_genera[bigdf_genera$dataset_ID==dataset_ID,]
   big_sorted = big[order(big$meantimes),]
   big_restricted = big_sorted
   big_restricted_nonas = big_restricted[,colSums(is.na(big_restricted)) < nrow(big_restricted)]
   big_noids = subset(big_restricted_nonas,select=-c(meantimes,dataset_ID))
+  big_noids
+}
+
+# ecp-function
+ecp_divisive_for_site = function(dataset_ID){
+  big=bigdf_genera[bigdf_genera$dataset_ID==dataset_ID,]
+  big_noids = ecp_preprocess_for_site(dataset_ID)
   big_scaled = scale(big_noids,scale = FALSE)
   ecp_divisive_for_site = e.divisive(big_scaled, k = NULL)
   print(big$meantimes[ecp_divisive_for_site$estimates[2]])
