@@ -95,7 +95,7 @@ make_interval_pol = function(dataset, interval, earliest_date){
     group_by(time.intervals) %>%
     summarise(
       meantimes = mean(meantimes),
-      across(2:8,na.rm=TRUE,sum))
+      across(2:ncol(dataset)-1,na.rm=TRUE,sum))
 }
 
 #relative_pol_int
