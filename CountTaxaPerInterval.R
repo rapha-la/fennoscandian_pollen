@@ -12,14 +12,10 @@ CountTaxaPerInterval = function(df, interval_length){
   dfcopy = data.frame(dfcopy[1], dfcopy2)
   for(i in 1:nrow(outdf)){
     df_restricted = dfcopy[dfcopy$lower_ends==outdf[i,1],]
-    df_restricted = df_restricted[4:ncol(df_restricted)]
+    df_restricted = df_restricted[2:ncol(df_restricted)]
     df_restricted = colSums(df_restricted)
     outdf[1,2] = length(df_restricted != 0)
   }
   outdf = outdf[order(outdf[,1]),]
   return(outdf)
 }
-
-test2 = CountTaxaPerInterval(coniferous_woodland, 100)
-
-
