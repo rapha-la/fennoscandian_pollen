@@ -11,9 +11,7 @@ pol15_all <- CallSites_N(LCC)
 pol15_int <- make_interval_pol(pol15_all, 100, 10000)
 pol15_sqrt <- sqrt_pol(pol15_int)
 pol15_inc <- makeIncrements(pol15_sqrt) #is the first year lost or the last?
-#ecp
 ecp_pol15 <- ecp_inc(pol15_inc, "pol15_inc")
-#plot
 plot_LCC(pol15_int, ecp_pol15, "LCC_North")
 
 ### CLIM ###
