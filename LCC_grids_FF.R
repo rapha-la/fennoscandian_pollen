@@ -12,34 +12,42 @@ library(ggplot2)
 
 #LOAD
 LCC <- read.csv("LCC.csv")
+all_temp_sites <- readRDS("all_temp_sites.RDS")
 #grid_files
-#clim15 <- read.csv("clim15.csv")
+pol15 <- read.csv("pol15.csv")
 arc15 <- read.csv("arc15.csv")
-#clim1 <- read.csv("clim1.csv")
+pol1 <- read.csv("pol1.csv")
 arc1 <- read.csv("arc1.csv")
-#clim2 <- read.csv("clim2.csv")
+pol2 <- read.csv("pol2.csv")
 arc2 <- read.csv("arc2.csv")
-#clim36 <- read.csv("clim36.csv")
+pol36 <- read.csv("pol36.csv")
 arc36 <- read.csv("arc36.csv")
-#clim47 <- read.csv("clim47.csv")
+pol47 <- read.csv("pol47.csv")
 arc47 <- read.csv("arc47.csv")
-#clim911 <- read.csv("clim911.csv")
+pol911 <- read.csv("pol911.csv")
 arc911 <- read.csv("arc911.csv")
+#clim_int
+clim1_int <- read.csv("clim1_int.csv")
+clim15_int <- read.csv("clim15_int.csv")
+clim2_int <- read.csv("clim2_int.csv")
+clim36_int <- read.csv("clim36_int.csv")
+clim47_int <- read.csv("clim47_int.csv")
+clim911_int <- read.csv("clim911_int.csv")
 
 
 ### FUNCTIONS ###
 #-------------------------------------------------------------------------------
 #plot_arc
 plot_arc = function(df){
-  ggplot(df, aes(x = mean_age)) + 
+  ggplot(df, aes(x = higher_ends)) + 
     scale_colour_manual(values=c(col1="orange"),labels=c("arc. finds")) +
-    geom_line(aes(y = nr_finds,colour="col1")) + 
+    geom_line(aes(y = NRfinds,colour="col1")) + 
     labs(x = "Year BP",y = "Nr of finds",colour = "Legend")
 }
 
 #plot_LCC
 plot_LCC = function(LCC_df, ecp_df, titleinquotes){
-  ggplot(LCC_df, aes(x = meantimes)) + 
+  ggplot(LCC_df, aes(x = higher_ends)) + 
     scale_colour_manual(values=c(col1="darkgreen",col2="green2", col3="darkslategray3", col4="violet", col5="tan3", col6="red2", col7="blue", changepoint="black") ,
                         labels=c("coniferous_woodland","deciduous_woodland","wet_woodland","pasture/meadow","wet_meadow","arable","heath", "changepoint")) +
     geom_line(aes(y = coniferous_woodland_sum,colour="col1")) + 
@@ -58,73 +66,71 @@ plot_LCC = function(LCC_df, ecp_df, titleinquotes){
 
 #make_interval_arc
 make_interval_arc = function(dataset, interval, earliest_date){
-  # set up cut-off values (every100)
-  breaks <- seq(from = -100, to = earliest_date, by = interval)
+  dataset$higher_ends = ceiling(dataset$weighted_mean/interval)*interval
   dataset$find <- c(1)
-  # bucketing values into bins
-  group_tags <- cut(dataset$weighted_mean, 
-                    breaks=breaks, 
-                    include.lowest=TRUE, 
-                    right=FALSE)
-  dataset_interval <- dataset
-  dataset_interval$time.intervals <- group_tags
-  # group by
-  dataset_interval <- dataset_interval %>%
-    group_by(time.intervals) %>%
+  dataset <- dataset %>%
+    group_by(higher_ends) %>%
     summarise(
       mean_age = mean(weighted_mean),
-      nr_finds = sum(find))
+      nr_finds = sum(find, na.rm = TRUE))
+  dataset <- data.frame(higher_ends = seq(0, dataset$higher_ends[nrow(dataset)], by = 100)) %>%
+    full_join(dataset, by = "higher_ends") %>%
+    mutate(NRfinds_new = na.approx(nr_finds, na.rm=FALSE))
+  dataset$NRfinds <- round(dataset$NRfinds_new, digits=0)
+  dataset <- dataset[-4]
+  dataset <- dataset[-c(102:nrow(dataset)),]
+  return(dataset)
 }
 
 #make_interval_pol
 make_interval_pol = function(dataset, interval, earliest_date){
-  # set up cut-off values (every100)
-  breaks <- seq(from = -100, to = earliest_date, by = interval)
-  # bucketing values into bins
-  group_tags <- cut(dataset$meantimes, 
-                    breaks=breaks, 
-                    include.lowest=TRUE, 
-                    right=FALSE)
   dataset_interval <- dataset
-  dataset_interval$time.intervals <- group_tags
-  #Sort
-  dataset_interval <- dataset_interval %>% select(dataset_ID, meantimes, time.intervals, everything())
+  dataset_interval$higher_ends = ceiling(dataset_interval$meantimes/interval)*interval
   dataset_interval <- subset(dataset_interval, select = -c(dataset_ID))
-  # group by
   dataset_interval <- dataset_interval %>%
-    group_by(time.intervals) %>%
+    group_by(higher_ends) %>%
     summarise(
       meantimes = mean(meantimes),
-      across(2:ncol(dataset)-1,na.rm=TRUE,sum))
+      across(2:ncol(dataset_interval)-1,na.rm=TRUE,sum))
+  dataset_interval <- dataset_interval[-c(102:nrow(dataset_interval)),]
 }
 
 #relative_pol_int
 relative_pol_int = function(dataframe){
-  mat = subset(dataframe, select = -c(time.intervals, meantimes))
+  mat = subset(dataframe, select = -c(higher_ends, meantimes))
   mat = data.matrix(mat)
   mat_rel = make_relative(mat)
   df_rel_intervals = data.frame(mat_rel)
-  df_rel_intervals$meantimes = dataframe$meantimes
-  df_rel_intervals = df_rel_intervals %>% select(meantimes, everything())
+  df_rel_intervals$higher_ends = dataframe$higher_ends
+  df_rel_intervals = df_rel_intervals %>% select(higher_ends, everything())
+}
+
+#make sqrt
+sqrt_pol = function(df){
+  df_sqrt <- sqrt(df[3:ncol(df)])
+  df_sqrt$higher_ends <- df$higher_ends
+  df_sqrt <- df_sqrt %>% select(higher_ends, everything())
 }
 
 #make increments
 makeIncrements = function(df){
-  df[2:(nrow(df)),3:ncol(df)]-df[1:(nrow(df)-1),3:ncol(df)]
+  df_inc <- df[2:(nrow(df)),2:ncol(df)]-df[1:(nrow(df)-1),2:ncol(df)]
+  df_inc$higher_ends = df$higher_ends[2:nrow(df)]
+  return(df_inc)
 }
 
 #ecp_inc
 ecp_inc = function(groupdf, df){
   big=groupdf
-  big_sorted = big[order(big$meantimes),]
+  big_sorted = big[order(big$higher_ends),]
   big_restricted = big_sorted
   big_restricted_nonas = big_restricted[,colSums(is.na(big_restricted)) < nrow(big_restricted)]
-  big_noids = subset(big_restricted_nonas,select=-c(meantimes))
+  big_noids = subset(big_restricted_nonas,select=-c(higher_ends))
   big_scaled = scale(big_noids,scale = FALSE)
-  ecp_divisive_for_site = e.divisive(big_scaled, k = NULL)
-  point1 <- big$meantimes[ecp_divisive_for_site$estimates[2]]
-  point2 <- big$meantimes[ecp_divisive_for_site$estimates[3]]
-  point3 <- big$meantimes[ecp_divisive_for_site$estimates[4]]
+  ecp_divisive_for_site = e.divisive(big_scaled, k = NULL, min.size = 5)
+  point1 <- big$higher_ends[ecp_divisive_for_site$estimates[2]]
+  point2 <- big$higher_ends[ecp_divisive_for_site$estimates[3]]
+  point3 <- big$higher_ends[ecp_divisive_for_site$estimates[4]]
   data.frame(df, point1, point2, point3)
 }
 
@@ -272,3 +278,14 @@ CallSites_SE = function(df){
                       pol911_12)
 }
 
+#ecp_clim
+ecp_clim = function(groupdf, df){
+  big=groupdf
+  big_sorted = big[order(big$higher_ends),]
+  big_noids = subset(big_sorted,select=-c(higher_ends))
+  ecp_divisive_for_site = e.divisive(big_noids, k = NULL, min.size = 5)
+  point1 <- big$higher_ends[ecp_divisive_for_site$estimates[2]]
+  point2 <- big$higher_ends[ecp_divisive_for_site$estimates[3]]
+  point3 <- big$higher_ends[ecp_divisive_for_site$estimates[4]]
+  data.frame(df, point1, point2, point3)
+}
