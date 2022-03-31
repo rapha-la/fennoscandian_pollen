@@ -1,5 +1,15 @@
 ### differentSums (functions and files) ###
 
+#install.packages("plyr")
+#install.packages("dplyr")
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ade4)
+library(funrar)
+library(ecp)
+library(ggplot2)
+
 #FILES
 coniferous_woodland <- read.csv("coniferous_woodland.csv")
 LCC <- read.csv("LCC.csv")
