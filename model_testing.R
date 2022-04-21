@@ -84,9 +84,6 @@ BetulaN <- rowSums(deciduousN_int[7:13])
 decN <- rowSums(deciduousN_int[3:ncol(deciduousN_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousN_int$lower_ends, LCC=decN)
 plot(mcp_area)
-mcp_test4(mcp_area)
-#Bayes (model1)
-hypothesis(fit_mcp, "cp_1=1417") #6.09
 
 
 ###wet_woodland
@@ -96,11 +93,6 @@ AlnusSalixN <- rowSums(wetwoodlandN_int[c(3,4,5,6,23)])
 wetwN <- rowSums(wetwoodlandN_int[3:ncol(wetwoodlandN_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandN_int$lower_ends, LCC=AlnusSalixN)
 plot(mcp_area)
-mcp_test3(mcp_area)
-#Bayes (model3 / AlnusSalixN)
-hypothesis(fit_mcp, "cp_1=5223") #
-hypothesis(fit_mcp, "cp_2=7140") #
-hypothesis(fit_mcp, "cp_3=8143") #
 
 
 ###wet_meadow
@@ -109,10 +101,6 @@ wetmeadowN_int <- make_interval_pol(wetmeadowN, 100, 10000)
 wetmN <- rowSums(wetmeadowN_int[3:ncol(wetmeadowN_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowN_int$lower_ends, LCC=wetmN)
 plot(mcp_area)
-mcp_test2(mcp_area)
-#Bayes
-hypothesis(fit_mcp, "cp_1=3700") #
-hypothesis(fit_mcp, "cp_2=8120") #
 
 ###pasture
 pastureN <- CallSites_N(pasture)
@@ -172,7 +160,6 @@ heathN_int <- make_interval_pol(heathN, 100, 10000)
 EricaN <- rowSums(heathN_int[c(12:15)])
 heaN <- rowSums(heathN_int[3:ncol(heathN_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathN_int$lower_ends, LCC=EricaN)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousN_int$lower_ends, conN, decN, wetwN, wetmN, pasN, araN, heaN)
@@ -182,7 +169,8 @@ ecpN <- ecp_sums(ecp_area, "ecp_area")
 plot_LCCecp(ecp_area, ecpN, "North_ecp")
 
 #countTaxa
-CountTaxaPerInterval(coniferousN)
+CountTaxaPerInterval(coniferousN, 100)
+
 
 ### SOUTHEAST ###
 #-------------------------------------------------------------------------------
@@ -240,7 +228,6 @@ deciduousSE_int <- make_interval_pol(deciduousSE, 100, 10000)
 #BetulaSE <- rowSums(deciduousSE_int[7:13])
 decSE <- rowSums(deciduousSE_int[3:ncol(deciduousSE_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousSE_int$lower_ends, LCC=decSE)
-mcp_test4(mcp_area)
 
 ###wet_woodland
 wetwoodlandSE <- CallSites_SE(wet_woodland)
@@ -248,14 +235,12 @@ wetwoodlandSE_int <- make_interval_pol(wetwoodlandSE, 100, 10000)
 AlnusSalixSE <- rowSums(wetwoodlandSE_int[c(3,4,5,6,23)])
 wetwSE <- rowSums(wetwoodlandSE_int[3:ncol(wetwoodlandSE_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandSE_int$lower_ends, LCC=AlnusSalixSE)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_meadow
 wetmeadowSE <- CallSites_SE(wet_meadow)
 wetmeadowSE_int <- make_interval_pol(wetmeadowSE, 100, 10000)
 wetmSE <- rowSums(wetmeadowSE_int[3:ncol(wetmeadowSE_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowSE_int$lower_ends, LCC=wetmSE)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###pasture
 pastureSE <- CallSites_SE(pasture)
@@ -263,7 +248,6 @@ pastureSE_int <- make_interval_pol(pastureSE, 100, 10000)
 #PoaceaeSE
 pasSE <- rowSums(pastureSE_int[3:ncol(pastureSE_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=pastureSE_int$lower_ends, LCC=pasSE)
-mcp_LCC(mcp_area)
 
 ###arable
 arableSE <- CallSites_SE(arable)
@@ -307,7 +291,6 @@ heathSE_int <- make_interval_pol(heathN, 100, 10000)
 EricaSE <- rowSums(heathSE_int[c(12:15)])
 heaSE <- rowSums(heathSE_int[3:ncol(heathSE_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathSE_int$lower_ends, LCC=EricaSE)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousSE_int$lower_ends, conSE, decSE, wetwSE, wetmSE, pasSE, araSE, heaSE)
@@ -359,7 +342,6 @@ deciduousMW_int <- make_interval_pol(deciduousMW, 100, 10000)
 BetulaMW <- rowSums(deciduousMW_int[7:13])
 #decMW <- rowSums(deciduousMW_int[3:ncol(deciduousMW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousMW_int$lower_ends, LCC=BetulaMW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_woodland
 wetwoodlandMW <- CallSites_MW(wet_woodland)
@@ -367,14 +349,12 @@ wetwoodlandMW_int <- make_interval_pol(wetwoodlandMW, 100, 10000)
 AlnusSalixMW <- rowSums(wetwoodlandMW_int[c(3,4,5,6,23)])
 #wetwMW <- rowSums(wetwoodlandMW_int[3:ncol(wetwoodlandMW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandMW_int$lower_ends, LCC=wetwMW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_meadow
 wetmeadowMW <- CallSites_MW(wet_meadow)
 wetmeadowMW_int <- make_interval_pol(wetmeadowMW, 100, 10000)
 wetmMW <- rowSums(wetmeadowMW_int[3:ncol(wetmeadowMW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowMW_int$lower_ends, LCC=wetmMW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###pasture
 pastureMW <- CallSites_MW(pasture)
@@ -382,7 +362,6 @@ pastureMW_int <- make_interval_pol(pastureMW, 100, 10000)
 #PoaceaeMW
 pasMW <- rowSums(pastureMW_int[3:ncol(pastureMW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=pastureMW_int$lower_ends, LCC=pasMW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###arable
 arableMW <- CallSites_MW(arable)
@@ -425,7 +404,6 @@ heathMW_int <- make_interval_pol(heathMW, 100, 10000)
 EricaMW <- rowSums(heathMW_int[c(12:15)])
 #heaMW <- rowSums(heathMW_int[3:ncol(heathMW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathMW_int$lower_ends, LCC=EricaMW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousMW_int$lower_ends, conMW, decMW, wetwMW, wetmMW, pasMW, araMW, heaMW)
@@ -470,7 +448,6 @@ deciduousMM_int <- make_interval_pol(deciduousMM, 100, 10000)
 #BetulaMM <- rowSums(deciduousMM_int[7:13])
 decMM <- rowSums(deciduousMM_int[3:ncol(deciduousMM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousMM_int$lower_ends, LCC=decMM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_woodland
 wetwoodlandMM <- CallSites_MM(wet_woodland)
@@ -478,14 +455,12 @@ wetwoodlandMM_int <- make_interval_pol(wetwoodlandMM, 100, 10000)
 AlnusSalixMM <- rowSums(wetwoodlandMM_int[c(3,4,5,6,23)])
 wetwMM <- rowSums(wetwoodlandMM_int[3:ncol(wetwoodlandMM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandMM_int$lower_ends, LCC=wetwMM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_meadow
 wetmeadowMM <- CallSites_MM(wet_meadow)
 wetmeadowMM_int <- make_interval_pol(wetmeadowSE, 100, 10000)
 wetmMM <- rowSums(wetmeadowMM_int[3:ncol(wetmeadowMM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowMM_int$lower_ends, LCC=wetmMM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###pasture
 pastureMM <- CallSites_MM(pasture)
@@ -493,7 +468,6 @@ pastureMM_int <- make_interval_pol(pastureMM, 100, 10000)
 #PoaceaeMM
 pasMM <- rowSums(pastureMM_int[3:ncol(pastureMM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=pastureMM_int$lower_ends, LCC=pastureMM_int$Poaceae)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###arable
 arableMM <- CallSites_MM(arable)
@@ -540,7 +514,6 @@ heathMM_int <- make_interval_pol(heathMM, 100, 10000)
 #EricaMM <- rowSums(heathMM_int[c(12:15)])
 heaMM <- rowSums(heathMM_int[3:ncol(heathMM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathMM_int$lower_ends, LCC=heaMM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousMM_int$lower_ends, conMM, decMM, wetwMM, wetmMM, pasMM, araMM, heaMM)
@@ -579,14 +552,12 @@ plot(fit_mcp)
 hypothesis(fit_mcp, "cp_1=2653") #0.7
 
 
-
 ###deciduous_woodland
 deciduousSW <- CallSites_SW(deciduous_woodland)
 deciduousSW_int <- make_interval_pol(deciduousSW, 100, 10000)
 BetulaSW <- rowSums(deciduousSW_int[7:13])
 #decSW <- rowSums(deciduousSW_int[3:ncol(deciduousSW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousSW_int$lower_ends, LCC=BetulaSW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_woodland
 wetwoodlandSW <- CallSites_SW(wet_woodland)
@@ -594,14 +565,12 @@ wetwoodlandSW_int <- make_interval_pol(wetwoodlandSW, 100, 10000)
 AlnusSalixSW <- rowSums(wetwoodlandSW_int[c(3,4,5,6,23)])
 wetwSW <- rowSums(wetwoodlandSW_int[3:ncol(wetwoodlandSW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandSW_int$lower_ends, LCC=AlnusSalixSW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_meadow
 wetmeadowSW <- CallSites_SW(wet_meadow)
 wetmeadowSW_int <- make_interval_pol(wetmeadowSW, 100, 10000)
 wetmSW <- rowSums(wetmeadowSW_int[3:ncol(wetmeadowSW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowSW_int$lower_ends, LCC=wetmSW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###pasture
 pastureSW <- CallSites_SW(pasture)
@@ -609,7 +578,6 @@ pastureSW_int <- make_interval_pol(pastureSW, 100, 10000)
 #PoaceaeSW
 pasSW <- rowSums(pastureSW_int[3:ncol(pastureSW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=pastureSW_int$lower_ends, LCC=pasSW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###arable
 arableSW <- CallSites_SW(arable)
@@ -642,14 +610,12 @@ hypothesis(fit_mcp, "cp_1=1150") #48
 hypothesis(fit_mcp, "cp_2=3193") #2.8
 
 
-
 ###heath
 heathSW <- CallSites_SW(heath)
 heathSW_int <- make_interval_pol(heathSW, 100, 10000)
 EricaSW <- rowSums(heathSW_int[c(12:15)])
 heaSW <- rowSums(heathSW_int[3:ncol(heathSW_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathSW_int$lower_ends, LCC=heaSW)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousSW_int$lower_ends, conSW, decSW, wetwSW, wetmSW, pasSW, araSW, heaSW)
@@ -705,7 +671,6 @@ deciduousSM_int <- make_interval_pol(deciduousSM, 100, 10000)
 BetulaSM <- rowSums(deciduousSM_int[7:13])
 decSM <- rowSums(deciduousSM_int[3:ncol(deciduousSM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=deciduousSM_int$lower_ends, LCC=BetulaSM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_woodland
 wetwoodlandSM <- CallSites_SM(wet_woodland)
@@ -713,14 +678,12 @@ wetwoodlandSM_int <- make_interval_pol(wetwoodlandSM, 100, 10000)
 AlnusSalixSM <- rowSums(wetwoodlandSM_int[c(3,4,5,6,23)])
 wetwSM <- rowSums(wetwoodlandSM_int[3:ncol(wetwoodlandSM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetwoodlandSM_int$lower_ends, LCC=AlnusSalixSM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###wet_meadow
 wetmeadowSM <- CallSites_SM(wet_meadow)
 wetmeadowSM_int <- make_interval_pol(wetmeadowSM, 100, 10000)
 wetmSM <- rowSums(wetmeadowSM_int[3:ncol(wetmeadowSM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=wetmeadowSM_int$lower_ends, LCC=wetmSM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###pasture
 pastureSM <- CallSites_SM(pasture)
@@ -728,7 +691,6 @@ pastureSM_int <- make_interval_pol(pastureSM, 100, 10000)
 #PoaceaeSM
 pasSM <- rowSums(pastureSM_int[3:ncol(pastureSM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=pastureSM_int$lower_ends, LCC=pasSM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 ###arable
 arableSM <- CallSites_SM(arable)
@@ -781,7 +743,6 @@ heathSM_int <- make_interval_pol(heathSM, 100, 10000)
 EricaSM <- rowSums(heathSM_int[c(12:15)])
 heaSM <- rowSums(heathSM_int[3:ncol(heathSM_int)], na.rm = TRUE)
 mcp_area <- data.frame(age=heathSM_int$lower_ends, LCC=heaSM)
-mcp2_LCC_newmodel(mcp_area, 1500)
 
 #ecp
 ecp_area <- data.frame(age=coniferousSM_int$lower_ends, conSM, decSM, wetwSM, wetmSM, pasSM, araSM, heaSM)
@@ -789,5 +750,3 @@ ecp_sqrt <- sqrt_sums(ecp_area)
 ecp_inc <- makeIncrements_singleLCC(ecp_sqrt)
 ecpSM <- ecp_sums(ecp_area, "ecp_area")
 plot_LCCecp(ecp_area, ecpSW, "SouthMid_ecp")
-
-
