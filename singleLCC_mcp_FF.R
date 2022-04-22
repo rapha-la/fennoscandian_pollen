@@ -9,6 +9,7 @@ library(ade4)
 library(funrar)
 library(ecp)
 library(ggplot2)
+library(mcp)
 
 #FILES
 coniferous_woodland <- read.csv("coniferous_woodland.csv")
@@ -259,15 +260,46 @@ mcp_LCC = function(df){
   plot(fit_mcp)
 }
 
-mcp2_LCC = function(df){
+mcp2_LCC = function(df, runs){
   mcp_data = df
   model = list(LCC~age+1, 1~age+1, 1~age+1)  # three intercept-only segments
   model_null = list(LCC~age+1)
-  fit_mcp = mcp(model, data = mcp_data, par_x = "age")
+  fit_mcp = mcp(model, data = mcp_data, par_x = "age", adapt = runs)
   fit_mcp_null = mcp(model_null, data = mcp_data, par_x = "age")
   summary(fit_mcp)
   plot(fit_mcp)
 }
+
+mcp2_LCC = function(df, runs){
+  mcp_data = df
+  model = list(LCC~1, ~0+age, ~1+age)  # three intercept-only segments
+  model_null = list(LCC~age+1)
+  fit_mcp = mcp(model, data = mcp_data, par_x = "age", adapt = runs)
+  fit_mcp_null = mcp(model_null, data = mcp_data, par_x = "age")
+  summary(fit_mcp)
+  plot(fit_mcp)
+}
+
+mcp2_LCC = function(df, runs){
+  mcp_data = df
+  model = list(LCC~1, ~1, ~1)  # three intercept-only segments
+  #model_null = list(LCC~age+1)
+  fit_mcp = mcp(model, data = mcp_data, par_x = "age", adapt = runs)
+  #fit_mcp_null = mcp(model_null, data = mcp_data, par_x = "age")
+  summary(fit_mcp)
+  plot(fit_mcp)
+}
+
+mcp2_LCC_newmodel = function(df, runs){
+  mcp_data = df
+  model = list(LCC~1, ~0+age, ~0+age)
+  #model_null = list(LCC~age+1)
+  fit_mcp = mcp(model, data = mcp_data, par_x = "age", adapt = runs)
+  #fit_mcp_null = mcp(model_null, data = mcp_data, par_x = "age")
+  summary(fit_mcp, digits=0)
+  plot(fit_mcp)
+}
+
 
 #fit_mcp$loo = loo(fit_mcp)
 #fit_mcp_null$loo = loo(fit_mcp_null)
@@ -284,12 +316,13 @@ makeIncrements = function(df){
 sqrt_sums = function(df){
   df_sqrt <- sqrt(df[2:ncol(df)])
   df_sqrt$age <- df$age
-  df_sqrt <- df_sqrt %>% select(age, everything())
+  df_sqrt <- df_sqrt[,c(8,1,3,2,4,5,6,7)]
+  return(df_sqrt)
 }
 
 #make increments
 makeIncrements_singleLCC = function(df){
-  df[2:(nrow(df)),2:ncol(df)]-df[1:(nrow(df)-1),2:ncol(df)]
+  df[1:(nrow(df)),2:ncol(df)]-df[1:(nrow(df)-1),2:ncol(df)]
 }
 
 #ecp_sums
@@ -341,7 +374,6 @@ plot_LCCecp = function(LCC_df, ecp_df, titleinquotes){
 CountTaxaPerInterval = function(df, interval_length){
   dfcopy = coniferous_woodland
   dfcopy$lower_ends = floor(dfcopy$meantimes/interval_length)*interval_length
-  dfcopy = dfcopy %>% select(lower_ends, everything())
   dfcopy =subset(dfcopy, select = -c(dataset_ID, meantimes))
   dfcopy <- dfcopy %>% group_by(lower_ends) %>% summarise(
     across(2:ncol(dfcopy)-1,na.rm=TRUE,sum))
@@ -350,5 +382,18 @@ CountTaxaPerInterval = function(df, interval_length){
   dfcopy2[dfcopy2 != 0] <- 1
   dfcopy2 = rowSums(dfcopy2)
   outdf = data.frame(dfcopy[1], NRtaxa = dfcopy2)
+  return(outdf)
+}
+
+#count sites per interval
+countSitesPerInterval = function(df,interval_length){
+  dfcopy = df
+  dfcopy$lower_ends = floor(dfcopy$meantimes/interval_length)*interval_length
+  outdf = data.frame(age=unique(dfcopy$lower_ends),NRsites=unique(dfcopy$lower_ends))
+  for(i in 1:nrow(outdf)){
+    df_restricted = dfcopy[dfcopy$lower_ends==outdf[i,1],]
+    outdf[i,2] = length(unique(df_restricted$dataset_ID))
+  }
+  outdf = outdf[order(outdf[,1]),]
   return(outdf)
 }
