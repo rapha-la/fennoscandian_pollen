@@ -1,0 +1,27 @@
+### regression with GLM packae ###
+
+#install.packages("glm2")
+library(glm2)
+
+#North
+#clim data needs to be calculated (menan or what)
+#alldataN <- data.frame(yearsBP=spdN$calBP[1:81], SPD=spdN$SPD_med[1:81], clim=clim15_int$t1[16:96], conN=conN[16:96],
+#                       decN=decN[16:96], wetwN=wetwN[16:96],wetmN=wetmN[16:96],pasN=pasN[16:96],araN=araN[16:96],heaN=heaN[16:96])
+#write.csv(alldataN, file = "alldataN.csv", row.names = FALSE)
+alldataN = read.csv("alldataN.csv")
+
+residmodel = glm2(SPD~clim, poisson, alldataN)
+#Histogram of Residuals
+hist(residmodel$residuals, main="Histogram of Residuals",
+     ylab="Residuals")
+#Q-Q Plot
+qqnorm(residmodel$residuals)
+qqline(residmodel$residuals)
+#add to dataframe
+alldataN$residuals <- residmodel$residuals
+
+glm2(conN~residuals, poisson, alldataN)
+
+
+#correlation test from R base
+cor.test(alldataN$conN, alldataN$residuals)
