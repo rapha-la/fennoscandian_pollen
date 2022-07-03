@@ -16,6 +16,7 @@ library(SCGLR)
 #alldataN <- data.frame(yearsBP=spdN$calBP[1:81], SPD=spdN$SPD_med[1:81], clim=paleoviewN$Area.Mean[16:96], conN=conN[16:96],
 #                       decN=decN[16:96], wetwN=wetwN[16:96],wetmN=wetmN[16:96],pasN=pasN[16:96],araN=araN[16:96],heaN=heaN[16:96])
 #alldataN = alldataN[1:79,]
+#alldataN = arrange(alldataN, -row_number())
 #write.csv(alldataN, file = "alldataN.csv", row.names = FALSE)
 alldataN = read.csv("alldataN.csv")
 
