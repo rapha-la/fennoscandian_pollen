@@ -15,6 +15,13 @@ library(smooth)
 library(zoo) 
 library(TTR)
 
+conN <- alldataN$conN
+decN <- alldataN$decN
+wetwN <- alldataN$wetwN
+wetmN <- alldataN$wetwN
+pasN <- alldataN$pasN
+araN <- alldataN$araN
+heaN <- alldataN$heaN
 
 #smoothing HOW TO MAKE MODEL SELECTION?
 sma(conN, ic="AIC", h=0, interval="none") #3
