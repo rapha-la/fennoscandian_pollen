@@ -11,7 +11,7 @@ library(ggplot2)
 library(tidyverse)      # data manipulation and visualization
 library(lubridate)      # easily work with dates and times
 library(fpp2)           # working with time series data
-library(smoothing)
+library(smooth)
 library(zoo) 
 library(TTR)
 
