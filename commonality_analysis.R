@@ -65,11 +65,10 @@ heaSMs <- alldataSMs$heaSMs
 
 #function
 custom_commonality_analysis <- function(LCC, SPD, clim, p) {
-  LCCadapt <- LCC
   varnames <- c(deparse(substitute(LCCadapt)), deparse(substitute(SPD)), deparse(substitute(clim)))
   lagnames <- paste0(varnames, "_lag", rep(1:p, each = 3))
   # Then we created the lagged variables / data for models
-  VAR_data <- embed(as.matrix(cbind(LCCadapt, SPD, clim)), p + 1)
+  VAR_data <- embed(as.matrix(cbind(LCC, SPD, clim)), p + 1)
   colnames(VAR_data) <- c(varnames, lagnames)
   VAR_data <- VAR_data[, -c(2,3)]
   # the full model with LCC, SPD and clim
