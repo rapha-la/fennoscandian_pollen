@@ -1,5 +1,7 @@
 ### commonality analysis function ###
 
+library(dplyr)
+
 #vectors
 SPD.N <- alldataNs$SPD
 clim.N <- alldataNs$clim
@@ -63,11 +65,11 @@ heaSMs <- alldataSMs$heaSMs
 
 #function
 custom_commonality_analysis <- function(LCC, SPD, clim, p) {
-  #commonality analysis
-  varnames <- c(deparse(substitute(LCC)), deparse(substitute(SPD)), deparse(substitute(clim)))
+  LCCadapt <- LCC
+  varnames <- c(deparse(substitute(LCCadapt)), deparse(substitute(SPD)), deparse(substitute(clim)))
   lagnames <- paste0(varnames, "_lag", rep(1:p, each = 3))
   # Then we created the lagged variables / data for models
-  VAR_data <- embed(as.matrix(cbind(LCC, SPD, clim)), p + 1)
+  VAR_data <- embed(as.matrix(cbind(LCCadapt, SPD, clim)), p + 1)
   colnames(VAR_data) <- c(varnames, lagnames)
   VAR_data <- VAR_data[, -c(2,3)]
   # the full model with LCC, SPD and clim
@@ -75,17 +77,17 @@ custom_commonality_analysis <- function(LCC, SPD, clim, p) {
   model_formula <- formula(paste0(varnames[1], " ~ ", model_formula))
   full_mod <- lm(model_formula, data = as.data.frame(VAR_data))
   # LCC and clim
-  VAR_data_c <- VAR_data[,c(1,2,4,5,7,8,10,11,13,14,16,17,19,20,22)]
+    VAR_data_c <- select(as.data.frame(VAR_data),contains(c("LCCadapt", "clim")))
   model_formula <- paste(colnames(VAR_data_c)[-1], collapse = " + ")
   model_formula <- formula(paste0(varnames[1], " ~ ", model_formula))
   clim_mod <- lm(model_formula, data = as.data.frame(VAR_data_c))
   # LCC and SPD
-  VAR_data_s <- VAR_data[,c(1,2,3,5,6,8,9,11,12,14,15,17,18,20,21)]
+  VAR_data_s <- select(as.data.frame(VAR_data),contains(c("LCCadapt", "SPD")))
   model_formula <- paste(colnames(VAR_data_s)[-1], collapse = " + ")
   model_formula <- formula(paste0(varnames[1], " ~ ", model_formula))
   SPD_mod <- lm(model_formula, data = as.data.frame(VAR_data_s))
   # only LCC
-  VAR_data_l <- VAR_data[,c(1,2,5,8,11,14,17,20)]
+  VAR_data_l <- select(as.data.frame(VAR_data),contains("LCCadapt"))
   model_formula <- paste(colnames(VAR_data_l)[-1], collapse = " + ")
   model_formula <- formula(paste0(varnames[1], " ~ ", model_formula))
   LCC_mod <- lm(model_formula, data = as.data.frame(VAR_data_l))
