@@ -16,11 +16,11 @@ formula7 <- paste(colnames(VAR_data)[-1], collapse = " + ")
 formula7 <- formula(paste0(varnames[1], " ~ ", formula7))
 
 formula6 <- select(VAR_data,-contains("7"))
-formula6 <- paste(colnames(VAR_data)[-1], collapse = " + ")
+formula6 <- paste(colnames(formula6)[-1], collapse = " + ")
 formula6 <- formula(paste0(varnames[1], " ~ ", formula6))
 
 formula1 <- select(VAR_data,-contains(c("7", "6", "5", "4", "3", "2")))
-formula1 <- paste(colnames(VAR_data)[-1], collapse = " + ")
+formula1 <- paste(colnames(formula1)[-1], collapse = " + ")
 formula1 <- formula(paste0(varnames[1], " ~ ", formula1))
 
 models1  <- map(dataconN_cv$train, ~lm(formula7, data = VAR_data))
