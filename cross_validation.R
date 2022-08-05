@@ -1,6 +1,7 @@
 ### cross validation ###
 
 library(modelr)
+library(glm2)
 
 varnames <- c(deparse(substitute(LCCadapt)), deparse(substitute(SPD)), deparse(substitute(clim)))
 lagnames <- paste0(varnames, "_lag", rep(1:7, each = 3))
