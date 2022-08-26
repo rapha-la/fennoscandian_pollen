@@ -100,7 +100,7 @@ crossvalidation = function(LCC, SPD, clim){
   summarise(MSE = mean( (LCCadapt - pred)^2))
 
   v1 = c("lag1", "lag2", "lag3", "lag4", "lag5", "lag6", "lag7")
-  v2 = c(lag1=mean(MSE1$MSE), lag2=mean(MSE2$MSE), lag3=mean(MSE3$MSE), lag4=mean(MSE4$MSE), lag5=mean(MSE5$MSE), lag6=mean(MSE6$MSE), lag7=mean(MSE7$MSE))
+  v2 = c(MSE1=mean(MSE1$MSE), MSE2=mean(MSE2$MSE), MSE3=mean(MSE3$MSE), MSE4=mean(MSE4$MSE), MSE5=mean(MSE5$MSE), MSE6=mean(MSE6$MSE), MSE7=mean(MSE7$MSE))
   list = data.frame(v1, v2)
   return(list[which.min(list$v2),])
 }
