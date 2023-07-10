@@ -22,6 +22,9 @@
 #save(LCC_familynames,file="LCC_familynames.Rda")
 load("LCC_familynames.Rda")
 
+# install package #
+install.packages("dplyr")
+
 #t
 LCC_familynames.t <- t(LCC_familynames)
 LCC_familynames.t <- as.data.frame(LCC_familynames.t)
